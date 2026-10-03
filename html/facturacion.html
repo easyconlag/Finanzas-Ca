@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo DIAN - Facturación Electrónica</title>
+    <!-- SweetAlert2 para alertas bonitas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #fdf2f8;
+        margin: 0;
+        padding: 30px 20px;
+        color: #333;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header-card {
+        background: linear-gradient(135deg, #880e4f, #ad1457);
+        color: white;
+        border-radius: 24px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 15px 35px rgba(136, 14, 79, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .table-card {
+        background: white;
+        border-radius: 24px;
+        padding: 2.5rem;
+        box-shadow: 0 15px 35px rgba(136, 14, 79, 0.08);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        padding: 14px;
+        border-bottom: 1px solid #eee;
+      }
+      th {
+        color: #880e4f;
+        border-bottom: 2px solid #fce4ec;
+        font-weight: 700;
+      }
+      .btn {
+        padding: 12px 24px;
+        border-radius: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Cabecera -->
+      <div class="header-card">
+        <div>
+          <span
+            style="
+              background: rgba(255, 255, 255, 0.2);
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 0.75rem;
+              font-weight: 800;
+              text-transform: uppercase;
+            "
+          >
+            Módulo DIAN Independiente
+          </span>
+          <h2 style="font-size: 2.2rem; font-weight: 900; margin: 8px 0 0 0">
+            Sistema de Facturación Electrónica
+          </h2>
+          <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.95rem">
+            Entorno fiscal aislado para la emisión legal de comprobantes y notas
+            de venta.
+          </p>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button
+            class="btn"
+            onclick="window.location.href = 'index.html'"
+            style="
+              background: rgba(255, 255, 255, 0.2);
+              border: 1px solid rgba(255, 255, 255, 0.4);
+              color: white;
+            "
+          >
+            ⬅ Volver al Panel Principal
+          </button>
+          <button
+            class="btn"
+            onclick="abrirModalFactura()"
+            style="
+              background: #ffffff;
+              color: #880e4f;
+              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            "
+          >
+            ➕ Emitir Nueva Factura
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-card">
+        <h4
+          style="
+            color: #880e4f;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+          "
+        >
+          📋 Registro de Comprobantes Electrónicos Emitidos
+        </h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Nº Factura</th>
+              <th>Cliente / Comprador</th>
+              <th>Fecha de Emisión</th>
+              <th>Total con IVA</th>
+              <th style="text-align: center">Acciones Legales</th>
+            </tr>
+          </thead>
+          <tbody id="facturas-table-body">
+            <!-- Contenido dinámico -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      let listaFacturas = JSON.parse(localStorage.getItem("listaFacturas")) || [
+        {
+          id: 1,
+          nro: "FE-1001",
+          cliente: "Juan Camilo Romero",
+          nitCliente: "1070000000",
+          fecha: "2026-08-22",
+          producto: "Fertilizante Orgánico x 5kg",
+          cantidad: 2,
+          precioUnitario: 50000,
+          aplicaIva: true,
+        },
+      ];
+
+      function renderizarFacturas() {
+        const tbody = document.getElementById("facturas-table-body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        listaFacturas.forEach((f) => {
+          let subtotal = f.cantidad * f.precioUnitario;
+          let iva = f.aplicaIva ? subtotal * 0.19 : 0;
+          let total = subtotal + iva;
+
+          tbody.innerHTML += `
+            <tr>
+                <td style="font-weight: bold; color: #880e4f;">${f.nro}</td>
+                <td style="font-weight: 600; color: #444;">${f.cliente} <br><span style="font-size: 0.8rem; color: #777;">NIT/CC: ${f.nitCliente}</span></td>
+                <td style="color: #666;">${f.fecha}</td>
+                <td style="font-weight: bold; color: #2e7d32;">$${total.toLocaleString()}</td>
+                <td style="text-align: center;">
+                    <button onclick="generarPDFFactura(${f.id})" style="background: #fce4ec; color: #880e4f; border: none; padding: 8px 16px; border-radius: 14px; font-weight: bold; cursor: pointer; font-size: 0.9rem;">📄 Descargar Factura PDF</button>
+                </td>
+            </tr>
+          `;
+        });
+      }
+
+      function abrirModalFactura() {
+        let siguienteNro = `FE-100${listaFacturas.length + 1}`;
+
+        Swal.fire({
+          title: "Generar Factura Electrónica",
+          html: `
+            <input type="text" id="fac-nro" class="swal2-input" value="${siguienteNro}" placeholder="Número de Factura">
+            <input type="text" id="fac-cliente" class="swal2-input" placeholder="Nombre o Razón Social del Cliente">
+            <input type="text" id="fac-nit" class="swal2-input" placeholder="NIT o Cédula del Cliente">
+            <input type="text" id="fac-prod" class="swal2-input" placeholder="Descripción del producto o servicio">
+            <input type="number" id="fac-cant" class="swal2-input" placeholder="Cantidad" value="1">
+            <input type="number" id="fac-precio" class="swal2-input" placeholder="Precio unitario ($)">
+            <div style="margin-top: 10px; text-align: left; padding-left: 10%;">
+                <label style="font-size: 0.9rem; color: #444; cursor: pointer;">
+                    <input type="checkbox" id="fac-iva" checked> Aplicar IVA (19%)
+                </label>
+            </div>
+          `,
+          confirmButtonText: "Generar y Guardar Factura",
+          confirmButtonColor: "#e91e63",
+          focusConfirm: false,
+          preConfirm: () => {
+            const nro = document.getElementById("fac-nro").value;
+            const cliente = document.getElementById("fac-cliente").value;
+            const nitCliente = document.getElementById("fac-nit").value;
+            const producto = document.getElementById("fac-prod").value;
+            const cantidad = parseInt(
+              document.getElementById("fac-cant").value,
+            );
+            const precioUnitario = parseFloat(
+              document.getElementById("fac-precio").value,
+            );
+            const aplicaIva = document.getElementById("fac-iva").checked;
+
+            if (
+              !cliente ||
+              !producto ||
+              isNaN(precioUnitario) ||
+              precioUnitario <= 0
+            ) {
+              Swal.showValidationMessage(
+                "Por favor completa los campos obligatorios.",
+              );
+              return false;
+            }
+            return {
+              nro,
+              cliente,
+              nitCliente,
+              producto,
+              cantidad,
+              precioUnitario,
+              aplicaIva,
+            };
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const nueva = {
+              id: Date.now(),
+              nro: result.value.nro,
+              cliente: result.value.cliente,
+              nitCliente: result.value.nitCliente || "222222222",
+              fecha: new Date().toISOString().split("T")[0],
+              producto: result.value.producto,
+              cantidad: result.value.cantidad,
+              precioUnitario: result.value.precioUnitario,
+              aplicaIva: result.value.aplicaIva,
+            };
+            listaFacturas.push(nueva);
+            localStorage.setItem(
+              "listaFacturas",
+              JSON.stringify(listaFacturas),
+            );
+            renderizarFacturas();
+            Swal.fire({
+              icon: "success",
+              title: "¡Factura generada!",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        });
+      }
+
+      function generarPDFFactura(id) {
+        let fac = listaFacturas.find((f) => f.id === id);
+        if (!fac) return;
+
+        let subtotal = fac.cantidad * fac.precioUnitario;
+        let iva = fac.aplicaIva ? subtotal * 0.19 : 0;
+        let total = subtotal + iva;
+        let cufeSimulado = "a3f5b7c9e1d2f4a6b8c0d2e4f6a8b0c2d4e6f8a0";
+
+        let nombreNegocioElem = document.getElementById(
+          "display-business-name",
+        );
+        let nombreNegocio = nombreNegocioElem
+          ? nombreNegocioElem.innerText
+          : "Mi Emprendimiento S.A.S.";
+
+        // Usamos concatenación por líneas para garantizar cero errores en Live Server
+        let html =
+          "<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'><title>Factura Electrónica - " +
+          fac.nro +
+          "</title>";
+        html +=
+          "<style>@page { size: letter; margin: 12mm; } body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff; color: #333; margin: 0; padding: 15px; }";
+        html +=
+          ".invoice-box { max-width: 750px; margin: 0 auto; border: 1px solid #eee; padding: 30px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }";
+        html +=
+          ".top-header { display: flex; justify-content: space-between; border-bottom: 2px solid #880e4f; padding-bottom: 15px; margin-bottom: 20px; }";
+        html +=
+          ".top-header h2 { color: #880e4f; margin: 0; font-size: 1.5rem; } .invoice-info { text-align: right; }";
+        html +=
+          ".client-box { background: #fafafa; padding: 15px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #880e4f; }";
+        html +=
+          "table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9rem; } th, td { padding: 10px 12px; border-bottom: 1px solid #eee; text-align: left; }";
+        html +=
+          "th { background: #fdf2f8; color: #880e4f; font-weight: bold; } .totals-box { display: flex; justify-content: flex-end; margin-bottom: 30px; }";
+        html +=
+          ".totals-table { width: 300px; font-size: 0.9rem; } .totals-table td { padding: 6px 10px; border: none; }";
+        html +=
+          ".cufe-box { background: #f8f9fa; border: 1px dashed #ccc; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #666; word-break: break-all; margin-bottom: 20px; }";
+        html +=
+          ".footer { text-align: center; font-size: 0.75rem; color: #880e4f; border-top: 1px solid #eee; padding-top: 10px; }";
+        html +=
+          ".actions { text-align: center; margin-top: 20px; } .btn-print { background: #880e4f; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; }";
+        html +=
+          "@media print { .actions { display: none; } body { padding: 0; } .invoice-box { border: none; box-shadow: none; padding: 0; } }</style></head>";
+        html +=
+          "<body><div class='invoice-box'><div class='top-header'><div><h2>" +
+          nombreNegocio +
+          "</h2>";
+        html +=
+          "<p style='margin: 4px 0 0 0; font-size: 0.85rem; color: #666;'>NIT: 900.123.456-1 | Régimen Común</p>";
+        html +=
+          "<p style='margin: 2px 0 0 0; font-size: 0.85rem; color: #666;'>Facturación Electrónica DIAN</p></div>";
+        html +=
+          "<div class='invoice-info'><h3 style='color: #880e4f; margin: 0;'>FACTURA ELECTRÓNICA</h3>";
+        html +=
+          "<h4 style='color: #e91e63; margin: 4px 0;'>" +
+          fac.nro +
+          "</h4><p style='margin: 0; font-size: 0.8rem; color: #666;'>Fecha: " +
+          fac.fecha +
+          "</p></div></div>";
+        html +=
+          "<div class='client-box'><strong style='color: #880e4f; display: block; margin-bottom: 4px;'>DATOS DEL ADQUIRENTE (CLIENTE)</strong>";
+        html +=
+          "<span><strong>Razón Social:</strong> " +
+          fac.cliente +
+          "</span><br><span><strong>NIT / C.C.:</strong> " +
+          fac.nitCliente +
+          "</span></div>";
+        html +=
+          "<table><thead><tr><th>Descripción del Producto / Servicio</th><th style='text-align: center;'>Cantidad</th>";
+        html +=
+          "<th style='text-align: right;'>Precio Unitario</th><th style='text-align: right;'>Total Item</th></tr></thead><tbody>";
+        html +=
+          "<tr><td>" +
+          fac.producto +
+          "</td><td style='text-align: center;'>" +
+          fac.cantidad +
+          "</td>";
+        html +=
+          "<td style='text-align: right;'>$" +
+          fac.precioUnitario.toLocaleString() +
+          "</td>";
+        html +=
+          "<td style='text-align: right; font-weight: bold;'>$" +
+          subtotal.toLocaleString() +
+          "</td></tr></tbody></table>";
+        html +=
+          "<div class='totals-box'><table class='totals-table'><tr><td><strong>Subtotal:</strong></td><td style='text-align: right;'>$" +
+          subtotal.toLocaleString() +
+          "</td></tr>";
+        html +=
+          "<tr><td><strong>IVA (19%):</strong></td><td style='text-align: right;'>$" +
+          iva.toLocaleString() +
+          "</td></tr>";
+        html +=
+          "<tr style='border-top: 2px solid #880e4f; font-size: 1.1rem; color: #880e4f;'><td><strong>TOTAL PAGAR:</strong></td><td style='text-align: right; font-weight: bold;'>$" +
+          total.toLocaleString() +
+          "</td></tr></table></div>";
+        html +=
+          "<div class='cufe-box'><strong>CUFE (Código Único de Factura Electrónica - DIAN):</strong><br>" +
+          cufeSimulado +
+          "</div>";
+        html +=
+          "<div class='footer'><p>Esta factura se asimila en sus efectos legal a una letra de cambio (Art. 774 del Código de Comercio). Autoriza DIAN Resolución N° 187600000000</p></div>";
+        html +=
+          "<div class='actions'><button class='btn-print' onclick='window.print()'>🖨️ Imprimir / Guardar Factura PDF</button></div></div></body></html>";
+
+        let blob = new Blob([html], { type: "text/html" });
+        let url = URL.createObjectURL(blob);
+        let ventanaFactura = window.open(url, "_blank");
+        if (!ventanaFactura) {
+          alert("Permite las ventanas emergentes para visualizar la factura.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderizarFacturas();
+      });
+    </script>
+  </body>
+</html>

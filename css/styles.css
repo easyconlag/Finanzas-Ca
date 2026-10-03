@@ -1,0 +1,1000 @@
+/* --- ESTILOS DE VISTAS Y TRANSICIONES --- */
+.view-section {
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Nav activo */
+.nav-tab.active {
+  background: #f06292 !important;
+  box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4);
+}
+
+/* Grid de Creadoras */
+.creators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.creator-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid #f8bbd0;
+  box-shadow: 0 4px 15px var(--sombra);
+  transition: transform 0.3s ease;
+}
+
+.creator-card:hover {
+  transform: translateY(-5px);
+}
+
+.creator-avatar {
+  font-size: 3rem;
+  background: var(--rosa-suave);
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  border: 2px solid var(--rosa-principal);
+}
+
+.creator-card h4 {
+  color: var(--rosa-oscuro);
+  font-size: 1.1rem;
+}
+
+.creator-role {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+/* Banner de Animación Contable */
+.accounting-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: linear-gradient(135deg, #ffffff, #fce4ec);
+  margin-bottom: 2rem;
+}
+
+.hero-icon-box {
+  position: relative;
+  font-size: 3.5rem;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animated-coin {
+  position: absolute;
+  font-size: 1.5rem;
+}
+
+/*fundadoras  */
+/* Título central */
+.panel-title-center {
+  color: var(--rosa-oscuro);
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Grid equilibrado */
+.creators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  perspective: 1000px;
+}
+
+/* Tarjetas Glassmorphism 3D */
+.creator-card-3d {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 2.2rem 1.5rem 1.8rem;
+  text-align: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(136, 14, 79, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.creator-card-3d:hover {
+  box-shadow: 0 20px 40px rgba(240, 98, 146, 0.25);
+}
+
+/* Envoltorio del Avatar con Anillo Animado */
+.avatar-glow-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinning-ring {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #f06292, #ffe082, #e91e63, #f06292);
+  animation: rotateRing 4s linear infinite;
+  z-index: 1;
+}
+
+.spinning-ring.alt-color {
+  background: conic-gradient(from 0deg, #880e4f, #f06292, #00e676, #880e4f);
+}
+
+@keyframes rotateRing {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.avatar-frame {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: #ffffff;
+  overflow: hidden;
+  z-index: 2;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.creator-card-3d:hover .avatar-frame img {
+  transform: scale(1.12);
+}
+
+/* Punto de estado activo */
+.status-pulse {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  background: #00e676;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 0 8px #00e676;
+}
+
+/* Textos e insignias */
+.creator-details h4 {
+  color: var(--rosa-oscuro);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 0.8rem;
+}
+
+.role-badge.ceo {
+  background: #fce4ec;
+  color: #c2185b;
+}
+.role-badge.cfo {
+  background: #fff8e1;
+  color: #f57f17;
+}
+.role-badge.tax {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.creator-desc {
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+/* --- SECCIÓN FUNDADORAS FLOTANTES SIN FONDO --- */
+.founders-section {
+  text-align: center;
+  margin: 3.5rem 0;
+  background: transparent;
+}
+
+.founders-title {
+  color: var(--rosa-oscuro);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+}
+
+.founders-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.founder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent; /* Permite ver el fondo animado */
+}
+
+/* Tamaño grande del avatar con sombra flotante */
+.avatar-wrapper {
+  width: 210px;
+  height: 210px;
+  margin-bottom: 1rem;
+  position: relative;
+  /* Sombra difusa proyectada directamente sobre las partículas */
+  filter: drop-shadow(0 15px 18px rgba(136, 14, 79, 0.25));
+  transition: filter 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+  filter: drop-shadow(0 22px 25px rgba(240, 98, 146, 0.45));
+}
+
+.founder-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.founder-item h3 {
+  color: var(--rosa-oscuro);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9);
+}
+
+.founder-item span {
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+/* --- ALINEACIÓN HORIZONTAL Y PARPADEO ANIMADO --- */
+.founders-section {
+  text-align: center;
+  margin: 3rem 0;
+  background: transparent;
+}
+
+.founders-title {
+  color: var(--rosa-oscuro);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+/* Fila horizontal perfecta */
+.founders-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 3.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: nowrap; /* Mantiene la fila única */
+}
+
+.founder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+}
+
+/* Contenedor del Avatar */
+.avatar-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  filter: drop-shadow(0 15px 15px rgba(136, 14, 79, 0.2));
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Capas de Párpados para Parpadeo */
+.eyelids {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #f7b199; /* Tono piel adaptado */
+  border-radius: 50%;
+  top: 45%;
+  opacity: 0;
+  transform: scaleY(0);
+  z-index: 10;
+  animation: parpadeo 3.8s infinite ease-in-out;
+}
+
+.eye-left {
+  left: 39%;
+}
+.eye-right {
+  right: 39%;
+}
+
+/* Animación del guiño/parpadeo */
+@keyframes parpadeo {
+  0%,
+  92%,
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  94%,
+  96% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+}
+
+.founder-card h3 {
+  color: var(--rosa-oscuro);
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-top: 0.8rem;
+}
+
+.founder-card span {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Ajuste responsive para pantallas móviles */
+@media (max-width: 768px) {
+  .founders-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+}
+/* --- ESTILOS DE FUNDADORAS EN 3 COLUMNAS --- */
+.founders-section {
+  width: 100%;
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.founders-title {
+  color: var(--rosa-oscuro);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Fuerza 3 columnas exactamente iguales de forma horizontal */
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Columna individual de cada personaje */
+.founder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+}
+
+/* Caja aislada del Avatar */
+.avatar-box {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 1rem;
+  position: relative;
+  filter: drop-shadow(0 12px 16px rgba(136, 14, 79, 0.25));
+}
+
+.avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Textos organizados debajo de cada avatar */
+.founder-card h3 {
+  color: var(--rosa-oscuro);
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0.4rem 0 0.2rem 0;
+}
+
+.founder-card p {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+/* --- ESTRUCTURA HORIZONTAL OBLIGATORIA PARA FUNDADORAS --- */
+.founders-section {
+  width: 100% !important;
+  margin: 2.5rem 0 !important;
+  text-align: center !important;
+  clear: both !important;
+}
+
+.founders-title {
+  color: #880e4f !important;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 2rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+}
+
+/* Forzar 1 sola fila horizontal con espacio equitativo */
+.founders-flex-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 2rem !important;
+  width: 100% !important;
+  max-width: 950px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Cada columna ocupa exactamente 1/3 del ancho */
+.founder-card-item {
+  flex: 1 1 0px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+}
+
+/* Control estricto de tamaño del contenedor de imagen */
+.avatar-image-wrapper {
+  width: 140px !important;
+  height: 140px !important;
+  max-width: 140px !important;
+  max-height: 140px !important;
+  margin: 0 auto 0.8rem auto !important;
+  position: relative !important;
+  filter: drop-shadow(0 10px 14px rgba(136, 14, 79, 0.25)) !important;
+}
+
+/* Control estricto de la imagen SVG */
+.avatar-image-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+.founder-card-item h3 {
+  color: #880e4f !important;
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  margin: 0.5rem 0 0.2rem 0 !important;
+  white-space: nowrap !important;
+}
+
+.founder-card-item p {
+  color: #666666 !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+/* --- HERO DASHBOARD: SPLIT SCREEN --- */
+.hero-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 900px) {
+  .hero-dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Textos de Bienvenida */
+.hero-badge-anim {
+  display: inline-block;
+  background: linear-gradient(90deg, #f06292, #e91e63);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  color: var(--rosa-oscuro);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  min-height: 100px; /* Evita saltos mientras escribe */
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 90%;
+}
+
+/* Cajas de Estadísticas/Estrategia */
+.hero-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+}
+.stat-box strong {
+  color: var(--rosa-oscuro);
+  font-size: 0.95rem;
+}
+.stat-box span {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+}
+
+/* --- WIDGET DE CHAT (ASISTENTE) --- */
+.chat-widget {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(136, 14, 79, 0.15);
+  display: flex;
+  flex-direction: column;
+  height: 420px;
+  overflow: hidden;
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #e91e63, #f06292);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-avatar-mini {
+  background: #ffe082;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.chat-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+.chat-status {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.chat-clear {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+}
+.chat-clear:hover {
+  transform: scale(1.1);
+}
+
+/* Cuerpo de mensajes */
+.chat-body {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.msg-wrapper {
+  display: flex;
+  width: 100%;
+}
+.msg-wrapper.bot-msg {
+  justify-content: flex-start;
+}
+.msg-wrapper.user-msg {
+  justify-content: flex-end;
+}
+
+.msg-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.bot-msg .msg-bubble {
+  background: #f5f5f5;
+  color: #333;
+  border-bottom-left-radius: 4px;
+}
+
+.user-msg .msg-bubble {
+  background: #f06292;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+/* Área de Input */
+.chat-input-area {
+  display: flex;
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.chat-input-area input:focus {
+  border-color: #f06292;
+}
+
+.btn-send {
+  background: #e91e63;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-send:hover {
+  background: #c2185b;
+}
+/* --- SUB-NAVEGACIÓN MÓDULO FINANCIERO --- */
+.finance-sub-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.finance-tab-btn {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(240, 98, 146, 0.3);
+  color: #666;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.finance-tab-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(240, 98, 146, 0.2);
+}
+
+.finance-tab-btn.active {
+  background: linear-gradient(90deg, #e91e63, #f06292);
+  color: white;
+  border: none;
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
+}
+
+/* --- ESPACIO DE TRABAJO (Paneles) --- */
+.finance-workspace {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.finance-content-pane {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 15px 35px rgba(136, 14, 79, 0.08);
+  min-height: 400px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- ONBOARDING (Configuración inicial centrada y elegante) --- */
+.onboarding-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.onboarding-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(136, 14, 79, 0.12);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  border-top: 5px solid #e91e63;
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+.onboarding-card h3 {
+  color: #880e4f;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+}
+
+.onboarding-card p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.modern-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+
+.modern-input:focus {
+  border-color: #f06292;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(240, 98, 146, 0.15);
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+/* Corrección universal para eliminar espacios muertos entre el header y las vistas */
+.view-section {
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+/* --- CONFIGURACIÓN DE MODO OSCURO --- */
+body.dark-mode {
+  background: linear-gradient(135deg, #12000a, #1f0b18) !important;
+  color: #fce4ec !important;
+}
+
+body.dark-mode .card,
+body.dark-mode div[style*="background: white"],
+body.dark-mode div[style*="background: #ffffff"],
+body.dark-mode div[style*="background: #f8f9fa"],
+body.dark-mode div[style*="background: #fafafa"] {
+  background: rgba(26, 11, 23, 0.9) !important;
+  color: #f8bbd0 !important;
+  border-color: rgba(233, 30, 99, 0.25) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode strong {
+  color: #ff80ab !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label {
+  color: #e0e0e0 !important;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+  background: #2a1022 !important;
+  color: #ffffff !important;
+  border-color: #880e4f !important;
+}
+
+body.dark-mode table th {
+  color: #ff80ab !important;
+  border-bottom-color: #880e4f !important;
+}
+
+body.dark-mode table td {
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e0e0e0 !important;
+}
+/* --- ESTILOS DE FUERZA PARA EL MODO OSCURO --- */
+body.dark-mode {
+  background: #120309 !important;
+  background-color: #120309 !important;
+  color: #fce4ec !important;
+}
+
+/* Forzar cambio en contenedores, tarjetas y paneles */
+body.dark-mode div,
+body.dark-mode section,
+body.dark-mode article {
+  background-color: inherit; /* respeta los contenedores principales pero oscurece fondos blancos */
+}
+
+/* Cambiar fondos blancos o claros de tarjetas a tono nocturno */
+body.dark-mode .card,
+body.dark-mode div[style*="background: white"],
+body.dark-mode div[style*="background: #ffffff"],
+body.dark-mode div[style*="background: #fafafa"],
+body.dark-mode div[style*="background: #f8f9fa"] {
+  background: #1f0b18 !important;
+  color: #f8bbd0 !important;
+  border: 1px solid rgba(233, 30, 99, 0.3) !important;
+}
+
+/* Forzar textos y títulos a tonos claros y neón */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode strong {
+  color: #ff4081 !important;
+}
+
+body.dark-mode p,
+body.dark-mode span:not(.nav-tab span),
+body.dark-mode label,
+body.dark-mode td {
+  color: #e0e0e0 !important;
+}
+
+/* Campos de formulario en modo oscuro */
+body.dark-mode input,
+body.dark-mode select {
+  background: #2d1225 !important;
+  color: #ffffff !important;
+  border-color: #ad1457 !important;
+}

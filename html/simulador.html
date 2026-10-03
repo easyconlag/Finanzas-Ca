@@ -1,0 +1,65 @@
+<!-- Archivo: simulador.html -->
+<section id="view-simulador" class="view-section" style="display: none; width: 100%; max-width: 1200px; margin: 30px auto; padding: 20px; box-sizing: border-box; background: #fff; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #fce4ec; padding-bottom: 20px;">
+    <div>
+      <span style="background: #fce4ec; color: #880e4f; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Asesoría Inteligente</span>
+      <h2 style="color: #880e4f; font-size: 2rem; font-weight: 900; margin: 10px 0 5px 0;">Simulador de Crédito e Inversión con Chichico 🤖💡</h2>
+      <p style="color: #666; margin: 0; font-size: 0.95rem;">Analiza si te conviene más pedir un préstamo o usar tus ahorros para impulsar tu emprendimiento.</p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+    
+    <!-- ENTRADAS -->
+    <div style="background: #fafafa; padding: 25px; border-radius: 20px; border: 1px solid #eee;">
+      <h4 style="color: #880e4f; margin-top: 0; font-size: 1.2rem; font-weight: 800; margin-bottom: 20px;">⚙️ Parámetros de Simulación</h4>
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div>
+          <label style="font-size: 0.85rem; font-weight: bold; color: #444; display: block; margin-bottom: 5px;">Monto del Préstamo / Inversión ($):</label>
+          <input type="number" id="sim-monto" value="1000000" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="font-size: 0.85rem; font-weight: bold; color: #444; display: block; margin-bottom: 5px;">Tasa de Interés Anual del Crédito (%):</label>
+          <input type="number" id="sim-tasa-credito" value="24" step="0.1" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="font-size: 0.85rem; font-weight: bold; color: #444; display: block; margin-bottom: 5px;">Plazo en Meses:</label>
+          <input type="number" id="sim-plazo" value="12" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="font-size: 0.85rem; font-weight: bold; color: #444; display: block; margin-bottom: 5px;">Rendimiento Anual Esperado del Ahorro (%):</label>
+          <input type="number" id="sim-tasa-ahorro" value="8" step="0.1" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box;">
+        </div>
+        <button type="button" onclick="calcularSimulacionFinanciera()" style="padding: 14px; border-radius: 15px; font-size: 1rem; font-weight: 700; cursor: pointer; background: linear-gradient(90deg, #e91e63, #f06292); border: none; color: white; box-shadow: 0 4px 15px rgba(233, 30, 99, 0.35); margin-top: 10px;">
+          🚀 Calcular y Consultar a Chichico
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS Y CONSEJO -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="background: #ffebee; padding: 20px; border-radius: 20px; border-left: 6px solid #c62828;">
+          <span style="font-size: 0.75rem; color: #c62828; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px;">Cuota Mensual Crédito</span>
+          <strong style="color: #c62828; font-size: 1.5rem;" id="res-cuota-mensual">$0</strong>
+        </div>
+        <div style="background: #e8f5e9; padding: 20px; border-radius: 20px; border-left: 6px solid #2e7d32;">
+          <span style="font-size: 0.75rem; color: #2e7d32; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px;">Rendimiento Ahorro</span>
+          <strong style="color: #2e7d32; font-size: 1.5rem;" id="res-rendimiento-ahorro">$0</strong>
+        </div>
+      </div>
+
+      <div style="background: #fff0f5; border: 1px solid #f8bbd0; padding: 20px; border-radius: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <span style="font-size: 1.8rem;">🦊💬</span>
+          <h4 style="color: #880e4f; margin: 0; font-size: 1.1rem; font-weight: 800;">Consejo Financiero de Chichico</h4>
+        </div>
+        <p id="res-consejo-chichico" style="color: #444; margin: 0; font-size: 0.95rem; line-height: 1.5; font-style: italic;">
+          "¡Hola! Rellena los datos a la izquierda y haz clic en calcular para decirte cuál es la mejor estrategia para tu dinero."
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>

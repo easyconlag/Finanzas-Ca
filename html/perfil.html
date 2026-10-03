@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Personalización | Catalina Palacios S.A.S.</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", system-ui, sans-serif; }
+        body { background: #fff0f5; color: #333; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
+        
+        /* Fondo con círculos decorativos difuminados estilo glassmorphism */
+        body::before { content: ''; position: absolute; top: -100px; left: -100px; width: 400px; height: 400px; background: rgba(233, 30, 99, 0.1); border-radius: 50%; z-index: -1; filter: blur(50px); }
+        body::after { content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; background: rgba(255, 224, 130, 0.2); border-radius: 50%; z-index: -1; filter: blur(50px); }
+
+        .main-header { background: #880e4f; color: white; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(136,14,79,0.2); }
+        .brand-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+        .brand-title span { background: #e91e63; padding: 4px 10px; border-radius: 10px; font-size: 0.8rem; box-shadow: 0 2px 10px rgba(233,30,99,0.4); }
+        
+        .btn-regresar-top { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 18px; border-radius: 14px; cursor: pointer; font-weight: 700; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); }
+        .btn-regresar-top:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
+
+        .content-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+        .profile-container { width: 100%; max-width: 900px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); padding: 45px; border-radius: 35px; box-shadow: 0 20px 45px rgba(136, 14, 79, 0.08); border: 1px solid rgba(255, 255, 255, 0.8); }
+        
+        .profile-header { display: flex; align-items: center; gap: 25px; border-bottom: 2px solid #fce4ec; padding-bottom: 30px; margin-bottom: 30px; flex-wrap: wrap; }
+        .avatar-circle { width: 90px; height: 90px; background: linear-gradient(135deg, #fce4ec, #f8bbd0); border: 3px solid #e91e63; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 8px 20px rgba(233,30,99,0.2); }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 25px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { font-size: 0.85rem; font-weight: 800; color: #880e4f; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control { padding: 14px 18px; border-radius: 16px; border: 2px solid #f8bbd0; outline: none; font-size: 1rem; background: #fff; transition: all 0.3s ease; color: #333; }
+        .form-control:focus { border-color: #e91e63; box-shadow: 0 0 0 5px rgba(233,30,99,0.12); }
+        
+        .btn-action { padding: 14px 28px; border-radius: 16px; font-weight: 800; cursor: pointer; border: none; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s ease; }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .btn-guardar { background: linear-gradient(135deg, #e91e63, #c2185b); color: white; box-shadow: 0 4px 15px rgba(233,30,99,0.3); }
+        .btn-logout { background: linear-gradient(135deg, #e53935, #c62828); color: white; box-shadow: 0 4px 15px rgba(198,40,40,0.3); }
+
+        @media(max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .profile-container { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="brand-title" id="header-brand-name">
+            Catalina Palacios <span>S.A.S.</span>
+        </div>
+        <a href="index.html" class="btn-regresar-top">
+            ⬅ Volver al Panel
+        </a>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="profile-container">
+            
+            <div class="profile-header">
+                <div class="avatar-circle">👑</div>
+                <div>
+                    <h2 style="color: #880e4f; font-size: 2rem; font-weight: 900;" id="lbl-nombre-usuario">Cargando perfil...</h2>
+                    <p style="color: #666; font-size: 1rem; font-weight: 600;" id="lbl-email-usuario">usuario@correo.com</p>
+                </div>
+            </div>
+
+            <h3 style="color: #880e4f; margin-bottom: 20px; font-size: 1.2rem; font-weight: 800;">✨ Centro de Personalización Global</h3>
+            
+            <form onsubmit="guardarPerfil(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre de la Empresa / Usuario:</label>
+                        <input type="text" id="input-nombre" class="form-control" required placeholder="Ej: Tu Nombre o Empresa S.A.S.">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico:</label>
+                        <input type="email" id="input-email" class="form-control" required placeholder="correo@empresa.com">
+                    </div>
+                    <div class="form-group full">
+                        <label>Lema o Eslogan Principal:</label>
+                        <input type="text" id="input-lema" class="form-control" required placeholder="Ej: El futuro financiero de tu pyme, hoy.">
+                    </div>
+                    <div class="form-group">
+                        <label>Nueva Contraseña (Opcional):</label>
+                        <input type="password" id="input-pass" class="form-control" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px; flex-wrap: wrap; gap: 15px;">
+                    <button type="submit" class="btn-action btn-guardar">💾 Guardar y Sincronizar Cambios</button>
+                    <button type="button" class="btn-action btn-logout" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            // Cargar datos actuales desde localStorage o usar valores por defecto
+            const email = localStorage.getItem('userEmail') || 'contacto@catalinapalacios.com';
+            const nombre = localStorage.getItem('userName') || 'Catalina Palacios S.A.S.';
+            const lema = localStorage.getItem('userLema') || 'El futuro financiero de tu pyme, hoy.';
+
+            document.getElementById('lbl-email-usuario').innerText = email;
+            document.getElementById('input-email').value = email;
+            
+            document.getElementById('lbl-nombre-usuario').innerText = nombre;
+            document.getElementById('input-nombre').value = nombre;
+            
+            document.getElementById('input-lema').value = lema;
+            
+            // Actualizar el header de esta misma vista
+            actualizarHeaderDinamico(nombre);
+        });
+
+        function actualizarHeaderDinamico(nombre) {
+            const headerBrand = document.getElementById('header-brand-name');
+            if (headerBrand) {
+                // Separa el texto principal de la etiqueta S.A.S si aplica
+                headerBrand.innerHTML = `${nombre} <span>S.A.S.</span>`;
+            }
+        }
+
+        function guardarPerfil(e) {
+            e.preventDefault();
+            const nuevoNombre = document.getElementById('input-nombre').value.trim();
+            const nuevoCorreo = document.getElementById('input-email').value.trim();
+            const nuevoLema = document.getElementById('input-lema').value.trim();
+
+            // Guardar en localStorage para sincronización global instantánea
+            localStorage.setItem('userName', nuevoNombre);
+            localStorage.setItem('userEmail', nuevoCorreo);
+            localStorage.setItem('userLema', nuevoLema);
+
+            // Actualizar vista local
+            document.getElementById('lbl-nombre-usuario').innerText = nuevoNombre;
+            document.getElementById('lbl-email-usuario').innerText = nuevoCorreo;
+            actualizarHeaderDinamico(nuevoNombre);
+
+            Swal.fire({
+                icon: 'success',
+                title: '¡Personalización Aplicada!',
+                text: 'Tus cambios se han sincronizado con todo el panel principal.',
+                timer: 2200,
+                showConfirmButton: false,
+                confirmButtonColor: '#e91e63'
+            });
+        }
+
+        function cerrarSesion() {
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: 'Volverás al modo invitado estándar.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e91e63',
+                cancelButtonColor: '#c62828',
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userLema');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

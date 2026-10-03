@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bolsillo Inteligente - Finanzas Personales y Ahorro</title>
+    <!-- Chart.js para gráficos dinámicos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SweetAlert2 para interacciones -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- GSAP para animaciones fluidas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+        margin: 0;
+        padding: 30px 20px;
+        color: #333;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header-card {
+        background: linear-gradient(135deg, #880e4f, #c2185b);
+        color: white;
+        border-radius: 28px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 40px rgba(136, 14, 79, 0.25);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .grid-dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 2rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 15px 35px rgba(136, 14, 79, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+      .btn {
+        padding: 12px 24px;
+        border-radius: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, #e91e63, #f06292);
+        color: white;
+        box-shadow: 0 6px 20px rgba(233, 30, 99, 0.35);
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+      }
+      .tip-box {
+        background: #fff8e1;
+        border-left: 5px solid #ffb300;
+        padding: 15px 20px;
+        border-radius: 16px;
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        color: #5d4037;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- CABECERA DE BIENVENIDA -->
+      <div class="header-card" id="anim-header">
+        <div>
+          <span
+            style="
+              background: rgba(255, 255, 255, 0.25);
+              padding: 5px 14px;
+              border-radius: 20px;
+              font-size: 0.75rem;
+              font-weight: 800;
+              text-transform: uppercase;
+            "
+            >💰 Módulo de Finanzas Personales</span
+          >
+          <h1 style="font-size: 2.4rem; font-weight: 900; margin: 10px 0 5px 0">
+            Bolsillo y Metas de Ahorro
+          </h1>
+          <p style="margin: 0; opacity: 0.9; font-size: 1rem">
+            Gestiona tus ingresos personales, programa metas y deja que Dante y
+            Federico te guíen al éxito financiero.
+          </p>
+        </div>
+        <div>
+          <button
+            class="btn"
+            onclick="window.location.href = 'index.html'"
+            style="
+              background: rgba(255, 255, 255, 0.2);
+              border: 1px solid rgba(255, 255, 255, 0.4);
+              color: white;
+            "
+          >
+            ⬅ Volver al Panel Principal
+          </button>
+        </div>
+      </div>
+
+      <!-- TARJETAS DE MÉTRICAS RÁPIDAS -->
+      <div class="grid-dashboard" id="anim-metrics">
+        <div class="card" style="display: flex; align-items: center; gap: 20px">
+          <div
+            style="
+              font-size: 2.5rem;
+              background: #e8f5e9;
+              width: 65px;
+              height: 65px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 20px;
+            "
+          >
+            💵
+          </div>
+          <div>
+            <span
+              style="
+                font-size: 0.8rem;
+                color: #666;
+                font-weight: 700;
+                display: block;
+                text-transform: uppercase;
+              "
+              >Ahorro Total Actual</span
+            >
+            <strong
+              style="color: #2e7d32; font-size: 1.6rem"
+              id="lbl-ahorro-total"
+              >$0</strong
+            >
+          </div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; gap: 20px">
+          <div
+            style="
+              font-size: 2.5rem;
+              background: #e3f2fd;
+              width: 65px;
+              height: 65px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 20px;
+            "
+          >
+            🎯
+          </div>
+          <div>
+            <span
+              style="
+                font-size: 0.8rem;
+                color: #666;
+                font-weight: 700;
+                display: block;
+                text-transform: uppercase;
+              "
+              >Meta de Ahorro Propuesta</span
+            >
+            <strong
+              style="color: #1565c0; font-size: 1.6rem"
+              id="lbl-meta-total"
+              >$1.500.000</strong
+            >
+          </div>
+        </div>
+        <div
+          class="card"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button
+            class="btn btn-primary"
+            onclick="abrirModalAhorro()"
+            style="width: 100%; padding: 16px; font-size: 1.05rem"
+          >
+            ➕ Registrar Ingreso o Ahorro
+          </button>
+        </div>
+      </div>
+
+      <!-- GRÁFICO DINÁMICO Y CONSEJOS DE DANTE & FEDERICO -->
+      <div class="grid-dashboard">
+        <!-- Gráfico Interactivo -->
+        <div class="card">
+          <h3
+            style="
+              color: #880e4f;
+              margin-top: 0;
+              font-size: 1.2rem;
+              font-weight: 800;
+              margin-bottom: 1rem;
+            "
+          >
+            📊 Distribución de tu Capital Personal
+          </h3>
+          <div style="width: 100%; height: 240px; position: relative">
+            <canvas id="graficoAhorro"></canvas>
+          </div>
+        </div>
+
+        <!-- Asesores: Dante y Federico -->
+        <div
+          class="card"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 1rem;
+              "
+            >
+              <h3
+                style="
+                  color: #880e4f;
+                  margin: 0;
+                  font-size: 1.2rem;
+                  font-weight: 800;
+                "
+              >
+                Consejos del Consejo Directivo 🐾
+              </h3>
+              <span
+                style="
+                  font-size: 0.75rem;
+                  background: #fce4ec;
+                  color: #880e4f;
+                  padding: 4px 10px;
+                  border-radius: 12px;
+                  font-weight: 700;
+                "
+                >IA Activa</span
+              >
+            </div>
+
+            <!-- Dante -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 16px;
+                border-left: 4px solid #00acc1;
+              "
+            >
+              <div style="font-size: 2rem">🐺</div>
+              <div>
+                <strong
+                  style="color: #00838f; font-size: 0.9rem; display: block"
+                  >Dante (Lobo Siberiano):</strong
+                >
+                <span style="color: #555; font-size: 0.85rem" id="dante-msg"
+                  >¡Aúlla! Configura un porcentaje fijo de tus ingresos para
+                  inversión a futuro.</span
+                >
+              </div>
+            </div>
+
+            <!-- Federico -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background: #f8f9fa;
+                padding: 12px;
+                border-radius: 16px;
+                border-left: 4px solid #d7ccc8;
+              "
+            >
+              <div style="font-size: 2rem">🐕</div>
+              <div>
+                <strong
+                  style="color: #5d4037; font-size: 0.9rem; display: block"
+                  >Federico (Perro Café):</strong
+                >
+                <span style="color: #555; font-size: 0.85rem" id="federico-msg"
+                  >Evita los gastos hormiga diarios; cada moneda cuenta para tu
+                  tranquilidad.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE TIPS DE AHORRO EDUCATIVOS -->
+      <div class="card" style="margin-bottom: 2rem">
+        <h3
+          style="
+            color: #880e4f;
+            margin-top: 0;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+          "
+        >
+          💡 Tips de Oro para Potenciar tus Finanzas Personales
+        </h3>
+        <div class="tip-box">
+          <strong>1. La Regla del 50/30/20:</strong> Destina el 50% de tus
+          ingresos a necesidades básicas, el 30% a deseos personales y al menos
+          el 20% directamente al ahorro o fondo de emergencia.
+        </div>
+        <div
+          class="tip-box"
+          style="
+            border-left-color: #e91e63;
+            background: #fdf2f8;
+            color: #880e4f;
+          "
+        >
+          <strong>2. Automatiza tu Ahorro:</strong> Programa transferencias
+          automáticas a tu cuenta de ahorros el mismo día que recibas tus
+          ingresos para evitar gastar el dinero antes de guardarlo.
+        </div>
+        <div
+          class="tip-box"
+          style="
+            border-left-color: #2e7d32;
+            background: #e8f5e9;
+            color: #1b5e20;
+          "
+        >
+          <strong>3. Fondo de Emergencia:</strong> Procura acumular de 3 a 6
+          meses de tus gastos fijos básicos en un fondo intocable ante
+          imprevistos.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Animaciones GSAP de entrada
+      gsap.from("#anim-header", {
+        opacity: 0,
+        y: -30,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+      gsap.from("#anim-metrics", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.2,
+        ease: "power2.out",
+      });
+
+      // Base de datos de ahorros personales guardados en localStorage
+      let datosAhorro = JSON.parse(
+        localStorage.getItem("datosAhorroPersonal"),
+      ) || [
+        { id: 1, desc: "Ahorro Quincenal", monto: 200000, tipo: "ahorro" },
+        { id: 2, desc: "Fondo de Emergencia", monto: 450000, tipo: "ahorro" },
+      ];
+
+      let graficoPersonal = null;
+
+      function renderizarAhorros() {
+        let totalAhorrado = datosAhorro.reduce(
+          (acc, item) => acc + item.monto,
+          0,
+        );
+        document.getElementById("lbl-ahorro-total").innerText =
+          `$${totalAhorrado.toLocaleString()}`;
+
+        actualizarGrafico(totalAhorrado);
+      }
+
+      function actualizarGrafico(ahorrado) {
+        const ctx = document.getElementById("graficoAhorro");
+        let meta = 1500000;
+        let restante = Math.max(meta - ahorrado, 0);
+
+        if (graficoPersonal) {
+          graficoPersonal.data.datasets[0].data = [ahorrado, restante];
+          graficoPersonal.update();
+          return;
+        }
+
+        graficoPersonal = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Ahorrado Actual", "Restante para Meta"],
+            datasets: [
+              {
+                data: [ahorrado, restante],
+                backgroundColor: ["#2e7d32", "#e0e0e0"],
+                borderWidth: 2,
+                borderColor: "#ffffff",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { font: { weight: "bold" } },
+              },
+            },
+          },
+        });
+      }
+
+      function abrirModalAhorro() {
+        Swal.fire({
+          title: "Registrar Capital o Ahorro",
+          html: `
+                    <input type="text" id="swal-desc" class="swal2-input" placeholder="Descripción (Ej: Ahorro quincenal)">
+                    <input type="number" id="swal-monto" class="swal2-input" placeholder="Monto a abonar ($)">
+                `,
+          confirmButtonText: "Guardar Ahorro",
+          confirmButtonColor: "#e91e63",
+          focusConfirm: false,
+          preConfirm: () => {
+            const desc = document.getElementById("swal-desc").value;
+            const monto = parseFloat(
+              document.getElementById("swal-monto").value,
+            );
+
+            if (!desc || isNaN(monto) || monto <= 0) {
+              Swal.showValidationMessage(
+                "Por favor ingresa una descripción y un monto válido.",
+              );
+            }
+            return { desc, monto };
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            datosAhorro.push({
+              id: Date.now(),
+              desc: result.value.desc,
+              monto: result.value.monto,
+              tipo: "ahorro",
+            });
+            localStorage.setItem(
+              "datosAhorroPersonal",
+              JSON.stringify(datosAhorro),
+            );
+            renderizarAhorros();
+            Swal.fire({
+              icon: "success",
+              title: "¡Abono registrado con éxito!",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        });
+      }
+
+      renderizarAhorros();
+    </script>
+  </body>
+</html>

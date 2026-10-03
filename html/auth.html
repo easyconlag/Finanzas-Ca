@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acceso de Usuario | Catalina Palacios S.A.S.</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      body {
+        background: #fff0f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+      }
+      .auth-container {
+        background: #fff;
+        width: 100%;
+        max-width: 450px;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      .auth-tabs {
+        display: flex;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #fce4ec;
+      }
+      .auth-tab {
+        flex: 1;
+        padding: 12px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        color: #777;
+        border: none;
+        background: none;
+        font-size: 1rem;
+      }
+      .auth-tab.active {
+        color: #880e4f;
+        border-bottom: 3px solid #e91e63;
+      }
+      .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .form-group label {
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: #444;
+      }
+      .form-control {
+        padding: 12px 15px;
+        border-radius: 12px;
+        border: 1px solid #f06292;
+        outline: none;
+        font-size: 0.95rem;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: #e91e63;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+      }
+      .btn-submit:hover {
+        background: #c2185b;
+      }
+      .btn-volver {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #880e4f;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2
+        style="
+          color: #880e4f;
+          text-align: center;
+          margin-bottom: 20px;
+          font-weight: 900;
+        "
+      >
+        Portal de Usuarios
+      </h2>
+
+      <div class="auth-tabs">
+        <button
+          class="auth-tab active"
+          onclick="cambiarFormulario('login', this)"
+        >
+          Iniciar Sesión
+        </button>
+        <button class="auth-tab" onclick="cambiarFormulario('registro', this)">
+          Registrarse
+        </button>
+      </div>
+
+      <!-- FORMULARIO DE LOGIN -->
+      <form id="form-login" onsubmit="ejecutarLogin(event)">
+        <div class="form-group">
+          <label>Correo Electrónico:</label>
+          <input
+            type="email"
+            id="login-email"
+            class="form-control"
+            required
+            placeholder="tu@correo.com"
+          />
+        </div>
+        <div class="form-group">
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            id="login-password"
+            class="form-control"
+            required
+            placeholder="••••••••"
+          />
+        </div>
+        <button type="submit" class="btn-submit">Ingresar a mi Cuenta</button>
+      </form>
+
+      <!-- FORMULARIO DE REGISTRO (Oculto por defecto) -->
+      <form
+        id="form-registro"
+        onsubmit="ejecutarRegistro(event)"
+        style="display: none"
+      >
+        <div class="form-group">
+          <label>Nombre Completo:</label>
+          <input
+            type="text"
+            id="reg-nombre"
+            class="form-control"
+            required
+            placeholder="Tu Nombre"
+          />
+        </div>
+        <div class="form-group">
+          <label>Correo Electrónico:</label>
+          <input
+            type="email"
+            id="reg-email"
+            class="form-control"
+            required
+            placeholder="tu@correo.com"
+          />
+        </div>
+        <div class="form-group">
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            id="reg-password"
+            class="form-control"
+            required
+            placeholder="••••••••"
+          />
+        </div>
+        <button type="submit" class="btn-submit">Crear Cuenta</button>
+      </form>
+
+      <a href="index.html" class="btn-volver"
+        >⬅ Volver al Inicio (Modo Invitado)</a
+      >
+    </div>
+
+    <script>
+      function cambiarFormulario(tipo, btn) {
+        document
+          .querySelectorAll(".auth-tab")
+          .forEach((t) => t.classList.remove("active"));
+        btn.classList.add("active");
+
+        if (tipo === "login") {
+          document.getElementById("form-login").style.display = "block";
+          document.getElementById("form-registro").style.display = "none";
+        } else {
+          document.getElementById("form-login").style.display = "none";
+          document.getElementById("form-registro").style.display = "block";
+        }
+      }
+
+      function ejecutarLogin(e) {
+        e.preventDefault();
+        // Simulación de autenticación exitosa guardando token y redirigiendo al perfil
+        localStorage.setItem("token", "token_activo_demo_123");
+        localStorage.setItem(
+          "userEmail",
+          document.getElementById("login-email").value,
+        );
+
+        Swal.fire({
+          icon: "success",
+          title: "¡Bienvenido!",
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = "perfil.html";
+        });
+      }
+
+      function ejecutarRegistro(e) {
+        e.preventDefault();
+        Swal.fire({
+          icon: "success",
+          title: "¡Cuenta creada con éxito!",
+          text: "Ahora puedes iniciar sesión.",
+        }).then(() => {
+          location.reload();
+        });
+      }
+    </script>
+  </body>
+</html>
